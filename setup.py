@@ -20,12 +20,12 @@ extras_require = {
 
 setup(
     name='moto',
-    version='0.4.22',
+    version='0.4.22-angarrett1',
     description='A library that allows your python tests to easily'
                 ' mock out the boto library',
     author='Steve Pulec',
     author_email='spulec@gmail.com',
-    url='https://github.com/spulec/moto',
+    url='https://github.com/2rs2ts/moto',
     entry_points={
         'console_scripts': [
             'moto_server = moto.server:main',
