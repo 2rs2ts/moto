@@ -158,7 +158,11 @@ def clean_json(resource_json, resources_map):
 
         cleaned_json = {}
         for key, value in resource_json.items():
-            cleaned_json[key] = clean_json(value, resources_map)
+            cleaned_val = clean_json(value, resources_map)
+            if cleaned_val is None:
+                # If we didn't find anything, don't add this attribute
+                continue
+            cleaned_json[key] = cleaned_val
         return cleaned_json
     elif isinstance(resource_json, list):
         return [clean_json(val, resources_map) for val in resource_json]
@@ -345,7 +349,8 @@ class ResourceMap(collections.Mapping):
         # Set any input parameters that were passed
         for key, value in self.input_parameters.items():
             if key in self.resolved_parameters:
-                if parameter_slots[key].get('Type', 'String') == 'CommaDelimitedList':
+                value_type = parameter_slots[key].get('Type', 'String')
+                if value_type == 'CommaDelimitedList' or value_type.startswith("List"):
                     value = value.split(',')
                 self.resolved_parameters[key] = value
 
